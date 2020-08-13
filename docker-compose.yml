@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   app:
     build: .
@@ -10,7 +10,12 @@ services:
     environment:
       DB_HOST: db
     ports:
-      - ${EXPOSED_PORT}:3000
+      - 3000:${EXPOSED_PORT}
+    networks:
+      standardnotes_proxy:
+        aliases:
+          - syncing_server
+      syncing_server: {}
   db:
     image: mysql:5.7
     environment:
@@ -23,5 +28,14 @@ services:
     restart: unless-stopped
     volumes:
       - std_notes_db:/var/lib/mysql
+    networks:
+      - syncing_server
+
 volumes:
   std_notes_db:
+
+networks:
+  syncing_server:
+    name: syncing_server
+  standardnotes_proxy:
+    name: standardnotes
