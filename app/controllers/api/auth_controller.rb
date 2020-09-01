@@ -130,9 +130,9 @@ class Api::AuthController < Api::ApiController
       user = result[:user]
       user.updated_with_user_agent = request.user_agent
       user.save
-      if ENV['AWS_REGION']
-        RegistrationJob.perform_later(user.email, user.created_at.to_s)
-      end
+
+      RegistrationJob.perform_later(user.email, user.created_at.to_s)
+
       render json: result
     end
   end
