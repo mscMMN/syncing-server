@@ -26,7 +26,6 @@ namespace :items do
         item.user.uuid,
         url,
         item.uuid,
-        [],
         !send_email
       )
     end
